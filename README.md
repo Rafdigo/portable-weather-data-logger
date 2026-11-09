@@ -2,7 +2,7 @@
 
 An autonomous, offline-first outdoor weather station built from two custom STM32 boards that talk to each other over a long-range 868 MHz radio link. Everything works without any network infrastructure: data is collected in the field, stored locally and exported over USB.
 
-> Status: work in progress (student project at VIKO, Faculty of Electronics and Informatics). Schematics are being finished; PCB layout and fabrication come next.
+> Status: work in progress. Schematics are being finished; PCB layout and fabrication come next.
 
 ## Idea
 
