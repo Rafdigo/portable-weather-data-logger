@@ -1,5 +1,7 @@
 # Portable Weather Data Logger
 
+> **In development (2026 - present).** Two-board portable weather station: STM32, SX1262 868 MHz radio, CAN, USB-C and solar charging. Schematics for both boards are done and reviewed (0 validation errors); PCB layout and fabrication are next.
+
 Two-board portable weather station designed in Altium Designer.
 
 | Board | Role | MCU | Link |
@@ -8,6 +10,22 @@ Two-board portable weather station designed in Altium Designer.
 | B | Sensor node: SHT40, BME280, VEML7700, SCD41, CCS811, SDP810, LSM6DSOX, SM351LT, 8 MB flash, fan | STM32G474RET6 | SX1262 868 MHz radio + CAN |
 
 Both boards: USB-C + solar charging (MCP73831, BQ24210), BQ29700 battery protection, TPS63021 3.3 V buck-boost.
+
+## Highlights
+
+- Two separate, complete Altium Designer projects, one per board
+- Offline-first design: data is collected in the field, stored on microSD and exported over USB, with no network required
+- Long-range 868 MHz radio link (SX1262) between the boards, with a calculated matching network; RF tuning planned with a NanoVNA
+- Battery-powered field units: USB-C and solar charging, battery protection, 3.3 V buck-boost rail
+- Adaptive aspiration fan on the sensor node, switched on only when solar irradiance and wind make temperature readings unreliable
+- Documented design process: DR1 calculations, block diagrams, schematic PDFs and a JLCPCB-ready BOM
+
+## Documentation
+
+- [Board A schematics (PDF)](docs/A%20board%20PDF.pdf)
+- [Board B schematics (PDF)](docs/B%20board%20PDF.pdf)
+- DR1 calculations: docs/DR1_Calculations_EN.pdf
+- BOM: bom/ and dr2/ (JLCPCB BOM with LCSC part numbers)
 
 ## Project status
 
@@ -43,4 +61,10 @@ A_board/   Altium project - control node
 B_board/   Altium project - sensor node
 docs/      DR1 calculations, block diagrams, schematic PDFs
 bom/       BOM (TME) and JLCPCB BOM with LCSC part numbers
+dr1/       Design Review 1 - schematics
+dr2/       Design Review 2 - fabrication package
 ```
+
+## License
+
+Copyright (c) 2026 Rafdigo. All rights reserved. See [LICENSE](LICENSE).
