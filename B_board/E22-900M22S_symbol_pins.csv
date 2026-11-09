@@ -1,0 +1,23 @@
+Designator,Name,Electrical Type,Side
+9,VCC,Power,Left
+19,NSS,Input,Left
+18,SCK,Input,Left
+16,MISO,Output,Left
+17,MOSI,Input,Left
+15,NRST,Input,Left
+14,BUSY,Output,Left
+13,DIO1,IO,Left
+8,DIO2,IO,Left
+7,TXEN,Input,Left
+6,RXEN,Input,Left
+21,ANT,Passive,Right
+1,GND,Power,Right
+2,GND,Power,Right
+3,GND,Power,Right
+4,GND,Power,Right
+5,GND,Power,Right
+10,GND,Power,Right
+11,GND,Power,Right
+12,GND,Power,Right
+20,GND,Power,Right
+22,GND,Power,Right
