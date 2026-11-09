@@ -1,58 +1,46 @@
 # Portable Weather Data Logger
 
-An autonomous, offline-first outdoor weather station built from two custom STM32 boards that talk to each other over a long-range 868 MHz radio link. Everything works without any network infrastructure: data is collected in the field, stored locally and exported over USB.
+Two-board portable weather station designed in Altium Designer.
 
-> Status: work in progress. Schematics are being finished; PCB layout and fabrication come next.
+| Board | Role | MCU | Link |
+|---|---|---|---|
+| A | Control node: display (Olimex MOD-LCD2.8RTP), microSD logging, CAN | STM32F105R8T6 | SX1262 868 MHz radio + CAN |
+| B | Sensor node: SHT40, BME280, VEML7700, SCD41, CCS811, SDP810, LSM6DSOX, SM351LT, 8 MB flash, fan | STM32G474RET6 | SX1262 868 MHz radio + CAN |
 
-## Idea
+Both boards: USB-C + solar charging (MCP73831, BQ24210), BQ29700 battery protection, TPS63021 3.3 V buck-boost.
 
-Low-cost weather stations that use a passive radiation shield can read 2-5 C too high in strong sun and low wind. Professional stations fix this with an always-on fan, which costs power. This project uses a small **adaptive aspiration fan** that only switches on when solar irradiance and wind speed indicate a high risk of measurement error, so accuracy improves without draining the battery.
+## Project status
 
-## System overview
-
-| | Board A - Control Node | Board B - Sensor Node |
+| Stage | Status | Date |
 |---|---|---|
-| MCU | STM32F105R8T6TR | STM32G474RET6 |
-| Role | Receives data, stores it, shows status, exports to PC | Field unit: reads sensors, drives the fan, transmits data |
-| Storage / UI | SD card (SPI, FAT32), touchscreen LCD | - |
-| Interfaces | USB, CAN, SWD, SX1262 radio | USB, CAN, SWD, SX1262 radio |
-| Power | Li-ion battery, USB-C and solar charging, buck-boost regulator | Same power chain |
+| Block diagrams (A, B) | ✅ Done | 2026-11-02 |
+| Schematics - board A | ✅ Done (Validate: 0 errors) | 2026-11-09 |
+| Schematics - board B | ✅ Done (Validate: 0 errors) | 2026-11-09 |
+| Lecturer's DR1 remarks (2026-11-08) | ✅ All fixed | 2026-11-09 |
+| DR1 calculations | ✅ Done (docs/DR1_Calculations_EN.pdf) | 2026-11-09 |
+| Preliminary BOM (TME + JLCPCB/LCSC) | ✅ Done (bom/) | 2026-11-09 |
+| DR1 - schematic review (week 8) | ⏳ Submitted, waiting for approval | |
+| Component availability check (LCSC) | ⏳ In progress | |
+| PCB layout - board A | ⬜ Not started | |
+| PCB layout - board B | ⬜ Not started | |
+| DR2 - manufacturing review (week 14): Gerber, CPL, final BOM, DFM | ⬜ Not started | |
+| Fabrication + assembly (JLCPCB) | ⬜ Not started | |
+| Bring-up, RF tuning (NanoVNA), firmware | ⬜ Not started | |
 
-The boards are linked by **SX1262 (868 MHz)** radios with a calculated matching network and an antenna keep-out zone. Both boards are battery powered and designed for field deployment.
+Legend: ✅ done · ⏳ in progress · ⬜ not started
 
-## Board B sensors (all I2C)
+## Open items
 
-- SHT40 - temperature and humidity (primary)
-- BME280 - barometric pressure, secondary temperature/humidity cross-check
-- VEML7700 - ambient light
-- CCS811B - VOC / air quality
-- SCD41 - CO2
-- LSM6DSOX - accelerometer and gyroscope
-- SM351LT - Hall effect sensor (fan RPM / position)
+- [ ] Parts not found on LCSC (decide before PCB, footprints may change): CCS811B, BGS12WN6 RF switch, ABM81 32 MHz crystal, Molex 1054500101 USB-C, PESD1CAN-UX (SOT-323)
+- [ ] Solar module: 5 V class, V<sub>oc</sub> ≤ 6.2 V (proposed WSL Solar 5V 1W)
+- [ ] Measure B D3 (SMAJ5.0CA on VBAT) leakage at 4.2 V
+- [ ] TBR values: display current, G474 current, Fox crystal ESR/C0
 
 ## Repository structure
 
-| Folder | Contents |
-|---|---|
-| `A_board/` | Altium Designer project for Board A (control node) |
-| `B_board/` | Altium Designer project for Board B (sensor node) |
-| `docs/` | Design notes, schematic PDFs and supporting documents |
-| `bom/` | Bill of materials and supplier notes |
-| `dr1/` | Design Review 1 - schematics |
-| `dr2/` | Design Review 2 - fabrication package |
-
-Each board is a separate Altium project. Open the `.PrjPcb` file in the matching folder.
-
-## Roadmap
-
-- [x] Block diagram, component selection and power chains
-- [x] MCU, power, USB, I2C, CAN, UART and SD card schematics
-- [ ] Radio (SX1262) section and matching network
-- [ ] DR1: schematic review
-- [ ] PCB layout
-- [ ] DR2: fabrication package, PCB order and assembly
-- [ ] Firmware and field testing
-
-## Tools
-
-Altium Designer, STM32 toolchain, JLCPCB / LCSC for fabrication and assembly.
+```
+A_board/   Altium project - control node
+B_board/   Altium project - sensor node
+docs/      DR1 calculations, block diagrams, schematic PDFs
+bom/       BOM (TME) and JLCPCB BOM with LCSC part numbers
+```
